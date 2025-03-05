@@ -18,6 +18,8 @@ services:
   db:
     image: postgres:13
     container_name: angadi_postgres_db
+    ports:
+      - '4536:5432' # Map external port 5432 to internal container port 5432
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
