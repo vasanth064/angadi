@@ -5,29 +5,24 @@ services:
     build: .
     container_name: Angadi_flask_app
     ports:
-      - "4535:5000"  # Map external port 4535 to internal container port 5000
+      - '4535:5000' # Map external port 4535 to internal container port 5000
     volumes:
       - .:/app
-      - ./pos_system.db:/app/pos_system.db
     environment:
       - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=postgresql://myuser:mypassword@db/mydatabase # PostgreSQL URI
     depends_on:
       - db
-    networks:
-      - custom_network
 
   db:
-    image: nouchka/sqlite3:latest
-    container_name: angadi_sqlite_db
+    image: postgres:13
+    container_name: angadi_postgres_db
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
     volumes:
-      - ./pos_system.db:/app/pos_system.db
-    restart: always
-    networks:
-      - custom_network
+      - pos_system_data:/var/lib/postgresql/data
 
-networks:
-  custom_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: "192.168.100.0/24"  # New subnet range to avoid overlap
+volumes:
+  pos_system_data:
