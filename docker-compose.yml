@@ -13,6 +13,7 @@ services:
       - SQLALCHEMY_DATABASE_URI=postgresql://myuser:mypassword@db/mydatabase # PostgreSQL URI
     depends_on:
       - db
+    command: ['sh', '-c', 'flask db upgrade && flask run --host=0.0.0.0']
 
   db:
     image: postgres:13
