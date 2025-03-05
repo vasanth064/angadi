@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: angadi_flask_app
+    container_name: Angadi_flask_app
     ports:
       - "4535:5000"  # Map external port 4535 to internal container port 5000
     volumes:
@@ -18,7 +18,7 @@ services:
 
   db:
     image: nouchka/sqlite3:latest
-    container_name: sqlite_db
+    container_name: angadi_sqlite_db
     volumes:
       - ./pos_system.db:/app/pos_system.db
     restart: always
@@ -30,4 +30,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: "172.28.0.0/16"  # Use a custom subnet that does not conflict with existing networks
+        - subnet: "192.168.100.0/24"  # New subnet range to avoid overlap
